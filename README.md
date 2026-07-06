@@ -44,12 +44,13 @@ LibreOffice 26.2 (Windows).
 |------|---------|
 | `idl/com/example/fred/XFred.idl` | Custom UNO interface (the 4 functions) |
 | `src/com/example/fred/FredImpl.java` | The add-in: `XFred` + `XAddIn` + `XServiceName`/`XServiceInfo`, display↔programmatic name mapping, UNO registration |
-| `src/com/example/fred/FredClient.java` | `HttpURLConnection` client + per-session response cache; API key from `FRED_API_KEY` |
+| `src/com/example/fred/FredClient.java` | `HttpURLConnection` client + per-session response cache; API key from the `api_key` argument or `FRED_API_KEY` |
 | `src/com/example/fred/Json.java` | Hand-rolled JSON parser (no third-party jars) |
 | `registration/CalcAddIns.xcu` | Function display names, descriptions, argument help |
 | `registration/{manifest,description}.xml`, `MANIFEST.MF` | `.oxt` manifest, extension metadata, jar `RegistrationClassName` |
 | `build.ps1` | `unoidl-write` → `javamaker` → `javac` (--release 8) → `jar` → zip `.oxt` |
 | `tools/test_fred.py` | Headless end-to-end test (all 4 functions + error paths) |
+| `tools/test_apikey.py` | Headless test of the optional `api_key` argument (env var unset) |
 | `tools/build_demo.py` | Regenerates the demo spreadsheet |
 | `test/fred_demo.ods` | Demo spreadsheet with live formulas |
 | `docs/INSTALL.md` | Full build / install / run instructions |
@@ -70,6 +71,9 @@ See `docs/INSTALL.md` for details. Key implementation notes:
   accepts by default — no runtime JRE reconfiguration. (`java.net.http.HttpClient`
   would need Java 11+, but LibreOffice's vendor allow-list here rejects the only
   11+ JRE on the machine.)
+- **API key**: every function takes an optional trailing `api_key` argument
+  (type it, or reference a cell: `=FRED_DESCRIPTION("GDP"; $B$1)`). When omitted,
+  the key falls back to the `FRED_API_KEY` env var. Never hardcoded.
 - **Errors** (bad series, unknown field, missing key, network failure) surface as
   Calc error values (`Err:502`), not exception strings.
 - **Missing values** (FRED `.` sentinel) become empty cells; `FRED_LATEST` skips
@@ -83,6 +87,7 @@ See `docs/INSTALL.md` for details. Key implementation notes:
 =FRED_META("GDP"; "frequency")                   -> Quarterly
 =FRED_LATEST("UNRATE")                           -> 4.2
 =FRED_SERIES("GDP"; "2023-01-01"; "2023-12-31")  -> 4 rows (date, value)
+=FRED_DESCRIPTION("GDP"; $B$1)                    -> key taken from cell B1
 ```
 
 

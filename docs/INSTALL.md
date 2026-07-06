@@ -5,13 +5,17 @@ functions as worksheet formulas:
 
 | Function | Signature | Returns |
 |----------|-----------|---------|
-| `FRED_SERIES`      | `FRED_SERIES(series_id; [start_date]; [end_date])` | spillable 2-column array `(date, value)` |
-| `FRED_DESCRIPTION` | `FRED_DESCRIPTION(series_id)`                      | series title |
-| `FRED_META`        | `FRED_META(series_id; field)`                      | one metadata field |
-| `FRED_LATEST`      | `FRED_LATEST(series_id)`                            | most recent value |
+| `FRED_SERIES`      | `FRED_SERIES(series_id; [start_date]; [end_date]; [api_key])` | spillable 2-column array `(date, value)` |
+| `FRED_DESCRIPTION` | `FRED_DESCRIPTION(series_id; [api_key])`                      | series title |
+| `FRED_META`        | `FRED_META(series_id; field; [api_key])`                      | one metadata field |
+| `FRED_LATEST`      | `FRED_LATEST(series_id; [api_key])`                            | most recent value |
 
 > In Calc's UI, arguments are separated by **semicolons**:
 > `=FRED_SERIES("GDP"; "2020-01-01"; "2024-01-01")`.
+>
+> Every function takes a trailing optional **`api_key`**. Supply it to override
+> the environment variable (see below) — typed literally or as a cell
+> reference: `=FRED_DESCRIPTION("GDP"; $B$1)`.
 
 ---
 
@@ -44,9 +48,17 @@ Confirm the tools resolve:
 
 ## 2. Provide the FRED API key (never hardcoded)
 
-The add-in reads the key from the **`FRED_API_KEY` environment variable**
-(falling back to the `fred.api.key` Java system property). Get a free key at
-<https://fredaccount.stlouisfed.org/apikeys>.
+Two ways, in priority order:
+
+1. **The `api_key` function argument** — the optional last argument of every
+   function. Type it literally, or (recommended) put it in one cell and
+   reference that cell: `=FRED_LATEST("UNRATE"; $B$1)`. Wins when supplied.
+2. **The `FRED_API_KEY` environment variable** — used whenever the argument is
+   omitted (falls back further to the `fred.api.key` Java system property).
+
+Get a free key at <https://fredaccount.stlouisfed.org/apikeys>. The key is never
+hardcoded in the add-in. The environment-variable route below is convenient
+because it keeps the key out of the spreadsheet entirely.
 
 Set it **for the LibreOffice process** — i.e. set it, then launch `soffice` from
 that same shell (or set it as a persistent user env var and restart LibreOffice):
@@ -159,6 +171,15 @@ all four functions plus the error paths against live FRED data:
 $env:FRED_API_KEY = 'your_key'
 & 'C:\Program Files\LibreOffice\program\soffice.exe' --headless --norestore --accept="socket,host=localhost,port=2002;urp;"
 & 'C:\Program Files\LibreOffice\program\python.exe' tools\test_fred.py   # prints RESULT: PASS
+```
+
+`tools\test_apikey.py` verifies the optional `api_key` argument in isolation —
+run it with `FRED_API_KEY` **unset**, passing the key only as an argument:
+
+```powershell
+Remove-Item Env:\FRED_API_KEY -ErrorAction SilentlyContinue
+& 'C:\Program Files\LibreOffice\program\soffice.exe' --headless --norestore --accept="socket,host=localhost,port=2002;urp;"
+& 'C:\Program Files\LibreOffice\program\python.exe' tools\test_apikey.py your_key
 ```
 
 ## Troubleshooting

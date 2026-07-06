@@ -48,13 +48,14 @@ public final class FredImpl extends WeakBase
     // ------------------------------------------------------------------ //
 
     /** {@inheritDoc} */
-    public Object[][] fredSeries(String seriesId, Object startDate, Object endDate)
+    public Object[][] fredSeries(String seriesId, Object startDate, Object endDate, Object apiKey)
             throws IllegalArgumentException {
         String id = requireId(seriesId);
-        String start = optDate(startDate);
-        String end = optDate(endDate);
+        String start = optString(startDate);
+        String end = optString(endDate);
+        String key = optString(apiKey);
         try {
-            List<Object[]> rows = FredClient.observations(id, start, end);
+            List<Object[]> rows = FredClient.observations(id, start, end, key);
             if (rows.isEmpty()) {
                 throw new IllegalArgumentException("No observations returned for " + id);
             }
@@ -71,10 +72,10 @@ public final class FredImpl extends WeakBase
     }
 
     /** {@inheritDoc} */
-    public String fredDescription(String seriesId) throws IllegalArgumentException {
+    public String fredDescription(String seriesId, Object apiKey) throws IllegalArgumentException {
         String id = requireId(seriesId);
         try {
-            Object title = FredClient.seriesMeta(id).get("title");
+            Object title = FredClient.seriesMeta(id, optString(apiKey)).get("title");
             if (title == null) {
                 throw new IllegalArgumentException("Series " + id + " has no title");
             }
@@ -85,13 +86,13 @@ public final class FredImpl extends WeakBase
     }
 
     /** {@inheritDoc} */
-    public String fredMeta(String seriesId, String field) throws IllegalArgumentException {
+    public String fredMeta(String seriesId, String field, Object apiKey) throws IllegalArgumentException {
         String id = requireId(seriesId);
         if (field == null || field.trim().isEmpty()) {
             throw new IllegalArgumentException("field is required");
         }
         try {
-            Map<String, Object> meta = FredClient.seriesMeta(id);
+            Map<String, Object> meta = FredClient.seriesMeta(id, optString(apiKey));
             String key = field.trim().toLowerCase();
             if (!meta.containsKey(key)) {
                 throw new IllegalArgumentException(
@@ -105,10 +106,10 @@ public final class FredImpl extends WeakBase
     }
 
     /** {@inheritDoc} */
-    public double fredLatest(String seriesId) throws IllegalArgumentException {
+    public double fredLatest(String seriesId, Object apiKey) throws IllegalArgumentException {
         String id = requireId(seriesId);
         try {
-            List<Object[]> rows = FredClient.observations(id, null, null);
+            List<Object[]> rows = FredClient.observations(id, null, null, optString(apiKey));
             // Walk backwards to the most recent non-missing observation.
             for (int r = rows.size() - 1; r >= 0; r--) {
                 Object value = rows.get(r)[1];
@@ -133,8 +134,8 @@ public final class FredImpl extends WeakBase
         return seriesId.trim();
     }
 
-    /** Interpret an optional date argument; VOID/empty -> null (no bound). */
-    private static String optDate(Object arg) {
+    /** Interpret an optional string argument (date, key); VOID/empty -> null. */
+    private static String optString(Object arg) {
         if (arg == null || arg instanceof Any) {
             return null; // omitted argument arrives as VOID Any
         }
@@ -189,11 +190,15 @@ public final class FredImpl extends WeakBase
         return "";
     }
 
+    private static final String ARG_KEY = "api_key";
+    private static final String ARG_KEY_DESC =
+        "Optional. FRED API key; if omitted, the FRED_API_KEY environment variable is used.";
+
     /** Per-function argument display names, indexed by position. */
     private static String[] argNames(String prog) {
-        if ("fredSeries".equals(prog)) return new String[] { "series_id", "start_date", "end_date" };
-        if ("fredMeta".equals(prog))   return new String[] { "series_id", "field" };
-        if ("fredDescription".equals(prog) || "fredLatest".equals(prog)) return new String[] { "series_id" };
+        if ("fredSeries".equals(prog)) return new String[] { "series_id", "start_date", "end_date", ARG_KEY };
+        if ("fredMeta".equals(prog))   return new String[] { "series_id", "field", ARG_KEY };
+        if ("fredDescription".equals(prog) || "fredLatest".equals(prog)) return new String[] { "series_id", ARG_KEY };
         return new String[0];
     }
 
@@ -204,16 +209,18 @@ public final class FredImpl extends WeakBase
                 "FRED series identifier, e.g. \"GDP\".",
                 "Optional. Inclusive start date, ISO YYYY-MM-DD.",
                 "Optional. Inclusive end date, ISO YYYY-MM-DD.",
+                ARG_KEY_DESC,
             };
         }
         if ("fredMeta".equals(prog)) {
             return new String[] {
                 "FRED series identifier, e.g. \"GDP\".",
                 "Metadata field, e.g. units, frequency, seasonal_adjustment.",
+                ARG_KEY_DESC,
             };
         }
         if ("fredDescription".equals(prog) || "fredLatest".equals(prog)) {
-            return new String[] { "FRED series identifier, e.g. \"GDP\"." };
+            return new String[] { "FRED series identifier, e.g. \"GDP\".", ARG_KEY_DESC };
         }
         return new String[0];
     }

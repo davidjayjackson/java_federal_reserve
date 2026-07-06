@@ -41,16 +41,24 @@ final class FredClient {
     private FredClient() {
     }
 
-    /** Resolve the API key from the environment or a system property. */
-    private static String apiKey() {
+    /**
+     * Resolve the API key. An explicit key (the optional function argument)
+     * wins; otherwise fall back to the FRED_API_KEY environment variable, then
+     * the fred.api.key system property.
+     */
+    private static String apiKey(String explicit) {
+        if (explicit != null && !explicit.trim().isEmpty()) {
+            return explicit.trim();
+        }
         String k = System.getenv("FRED_API_KEY");
         if (k == null || k.trim().isEmpty()) {
             k = System.getProperty("fred.api.key");
         }
         if (k == null || k.trim().isEmpty()) {
             throw new IllegalStateException(
-                    "FRED API key not set. Define the FRED_API_KEY environment "
-                    + "variable (or the fred.api.key system property).");
+                    "FRED API key not set. Pass it as the api_key argument, or "
+                    + "define the FRED_API_KEY environment variable (or the "
+                    + "fred.api.key system property).");
         }
         return k.trim();
     }
@@ -79,14 +87,15 @@ final class FredClient {
      * GET the given FRED endpoint with the supplied query params, returning the
      * parsed JSON root. Responses are cached by full URL for the session.
      *
+     * @param apiKey   explicit key (may be null to use env/property fallback)
      * @param endpoint e.g. "series" or "series/observations"
      * @param params   alternating key, value, key, value, ... (api_key and
      *                 file_type are added automatically)
      */
     @SuppressWarnings("unchecked")
-    private static Map<String, Object> get(String endpoint, String... params) {
+    private static Map<String, Object> get(String apiKey, String endpoint, String... params) {
         StringBuilder url = new StringBuilder(BASE).append(endpoint)
-                .append("?file_type=json&api_key=").append(enc(apiKey()));
+                .append("?file_type=json&api_key=").append(enc(apiKey(apiKey)));
         for (int p = 0; p + 1 < params.length; p += 2) {
             String value = params[p + 1];
             if (value == null || value.isEmpty()) continue;
@@ -135,8 +144,8 @@ final class FredClient {
 
     /** Return the metadata map for a single series (the first "seriess" entry). */
     @SuppressWarnings("unchecked")
-    static Map<String, Object> seriesMeta(String seriesId) {
-        Map<String, Object> root = get("series", "series_id", seriesId);
+    static Map<String, Object> seriesMeta(String seriesId, String apiKey) {
+        Map<String, Object> root = get(apiKey, "series", "series_id", seriesId);
         Object list = root.get("seriess");
         if (!(list instanceof List) || ((List<Object>) list).isEmpty()) {
             throw new IllegalArgumentException("No such series: " + seriesId);
@@ -154,8 +163,8 @@ final class FredClient {
      * an empty cell instead of a string.
      */
     @SuppressWarnings("unchecked")
-    static List<Object[]> observations(String seriesId, String start, String end) {
-        Map<String, Object> root = get("series/observations",
+    static List<Object[]> observations(String seriesId, String start, String end, String apiKey) {
+        Map<String, Object> root = get(apiKey, "series/observations",
                 "series_id", seriesId,
                 "observation_start", start,
                 "observation_end", end);

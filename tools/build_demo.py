@@ -48,6 +48,7 @@ def main():
 
         put(0, 0, "FRED Calc Add-In - demo")
         put(0, 1, "Set FRED_API_KEY, launch LibreOffice, recalc with Ctrl+Shift+F9.")
+        put(0, 2, 'Or pass the key per formula (last arg), e.g. =FRED_LATEST("UNRATE"; $B$1).')
 
         put(0, 3, "Function")
         put(1, 3, "Live result")

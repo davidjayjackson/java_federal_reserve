@@ -8,7 +8,7 @@
     <node oor:name="com.example.fred.FredImpl" oor:op="replace">
       <node oor:name="AddInFunctions">
 
-        <!-- =FRED_SERIES(series_id; [start_date]; [end_date]) -->
+        <!-- =FRED_SERIES(series_id; [start_date]; [end_date]; [api_key]) -->
         <node oor:name="fredSeries" oor:op="replace">
           <prop oor:name="DisplayName">
             <value xml:lang="en">FRED_SERIES</value>
@@ -47,10 +47,18 @@
                 <value xml:lang="en">Optional. Inclusive end date, ISO YYYY-MM-DD. Omit for no upper bound.</value>
               </prop>
             </node>
+            <node oor:name="apiKey" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">api_key</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. FRED API key; if omitted, the FRED_API_KEY environment variable is used. May reference a cell.</value>
+              </prop>
+            </node>
           </node>
         </node>
 
-        <!-- =FRED_DESCRIPTION(series_id) -->
+        <!-- =FRED_DESCRIPTION(series_id; [api_key]) -->
         <node oor:name="fredDescription" oor:op="replace">
           <prop oor:name="DisplayName">
             <value xml:lang="en">FRED_DESCRIPTION</value>
@@ -73,10 +81,18 @@
                 <value xml:lang="en">FRED series identifier, e.g. "GDP".</value>
               </prop>
             </node>
+            <node oor:name="apiKey" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">api_key</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. FRED API key; if omitted, the FRED_API_KEY environment variable is used. May reference a cell.</value>
+              </prop>
+            </node>
           </node>
         </node>
 
-        <!-- =FRED_META(series_id; field) -->
+        <!-- =FRED_META(series_id; field; [api_key]) -->
         <node oor:name="fredMeta" oor:op="replace">
           <prop oor:name="DisplayName">
             <value xml:lang="en">FRED_META</value>
@@ -107,10 +123,18 @@
                 <value xml:lang="en">Metadata field name, e.g. units, frequency, seasonal_adjustment, last_updated, notes.</value>
               </prop>
             </node>
+            <node oor:name="apiKey" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">api_key</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. FRED API key; if omitted, the FRED_API_KEY environment variable is used. May reference a cell.</value>
+              </prop>
+            </node>
           </node>
         </node>
 
-        <!-- =FRED_LATEST(series_id) -->
+        <!-- =FRED_LATEST(series_id; [api_key]) -->
         <node oor:name="fredLatest" oor:op="replace">
           <prop oor:name="DisplayName">
             <value xml:lang="en">FRED_LATEST</value>
@@ -131,6 +155,14 @@
               </prop>
               <prop oor:name="Description">
                 <value xml:lang="en">FRED series identifier, e.g. "GDP".</value>
+              </prop>
+            </node>
+            <node oor:name="apiKey" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">api_key</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. FRED API key; if omitted, the FRED_API_KEY environment variable is used. May reference a cell.</value>
               </prop>
             </node>
           </node>

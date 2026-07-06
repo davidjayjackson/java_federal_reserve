@@ -76,9 +76,21 @@ def main():
         r += 1
         first = r  # header row is the first row of the array
         rng = sh.getCellRangeByPosition(0, first, 1, first + 8)  # A..B, 9 rows
-        formula = '=FRED_SERIES("GDP";"2022-01-01";"2023-12-31";"";TRUE())'
-        rng.setArrayFormula(formula)
-        put(2, first, "{" + formula + "}  (select range, Ctrl+Shift+Enter)")
+        series_f = '=FRED_SERIES("GDP";"2022-01-01";"2023-12-31";"";TRUE())'
+        rng.setArrayFormula(series_f)
+        put(2, first, "{" + series_f + "}  (select range, Ctrl+Shift+Enter)")
+
+        # FRED_FIELDS as a real multi-cell array formula, with a header row.
+        # It lists the metadata fields valid for FRED_META. GDP exposes 15
+        # fields, + header = 16 rows.
+        r = first + 9 + 1  # skip the 9-row FRED_SERIES block and one blank row
+        put(0, r, "FRED_FIELDS (array formula with headers, GDP metadata fields)")
+        r += 1
+        ffirst = r
+        frng = sh.getCellRangeByPosition(0, ffirst, 1, ffirst + 15)  # A..B, 16 rows
+        fields_f = '=FRED_FIELDS("GDP";"";TRUE())'
+        frng.setArrayFormula(fields_f)
+        put(2, ffirst, "{" + fields_f + "}  (select range, Ctrl+Shift+Enter)")
 
         # Widen columns a little for readability.
         cols = sh.Columns

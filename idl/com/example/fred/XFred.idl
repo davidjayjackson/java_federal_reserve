@@ -1,0 +1,82 @@
+#include <com/sun/star/uno/XInterface.idl>
+#include <com/sun/star/lang/IllegalArgumentException.idl>
+
+module com { module example { module fred {
+
+    /** Add-in interface exposing FRED (Federal Reserve Economic Data)
+        worksheet functions to LibreOffice Calc.
+
+        Each method maps to a callable Calc function whose display name,
+        description and per-argument help are supplied by
+        config/CalcAddIns.xcu. On bad input, an unknown series, or a network
+        failure the methods raise com::sun::star::lang::IllegalArgumentException,
+        which Calc renders as a proper error value (e.g. #VALUE!) in the cell
+        rather than an exception string. */
+    interface XFred
+    {
+        interface ::com::sun::star::uno::XInterface;
+
+        /** Return a series' observations as a spillable two-column array
+            of (date, value).
+
+            @param seriesId
+                the FRED series identifier, e.g. "GDP".
+
+            @param startDate
+                optional. Inclusive lower bound, ISO "YYYY-MM-DD". Declared as
+                <em>any</em> so it may be omitted in the formula (VOID = no bound).
+
+            @param endDate
+                optional. Inclusive upper bound, ISO "YYYY-MM-DD". Declared as
+                <em>any</em> so it may be omitted in the formula (VOID = no bound).
+
+            @returns
+                a matrix of rows; column 1 is the ISO date string, column 2 is
+                the numeric value. Missing observations (the FRED "." sentinel)
+                yield an empty value cell rather than a string.
+         */
+        sequence< sequence< any > > fredSeries(
+            [in] string seriesId,
+            [in] any startDate,
+            [in] any endDate )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** Return the human-readable title of a series.
+
+            @param seriesId
+                the FRED series identifier, e.g. "GDP".
+            @returns
+                the series title, e.g. "Gross Domestic Product".
+         */
+        string fredDescription(
+            [in] string seriesId )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** Return a single metadata field for a series.
+
+            @param seriesId
+                the FRED series identifier, e.g. "GDP".
+            @param field
+                one of: units, frequency, seasonal_adjustment, last_updated,
+                notes, title, observation_start, observation_end.
+            @returns
+                the requested field's value as text.
+         */
+        string fredMeta(
+            [in] string seriesId,
+            [in] string field )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** Return the most recent (non-missing) observation value.
+
+            @param seriesId
+                the FRED series identifier, e.g. "GDP".
+            @returns
+                the latest numeric observation value.
+         */
+        double fredLatest(
+            [in] string seriesId )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+    };
+
+}; }; };

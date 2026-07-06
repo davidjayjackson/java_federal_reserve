@@ -58,7 +58,19 @@ LibreOffice 26.2 (Windows).
 | `test/fred_demo.ods` | Demo spreadsheet with live formulas |
 | `docs/INSTALL.md` | Full build / install / run instructions |
 
-### Quick start
+### Install (prebuilt)
+
+Download `FRED.oxt` from the [latest release](https://github.com/davidjayjackson/java_federal_reserve-/releases/latest)
+([direct link](https://github.com/davidjayjackson/java_federal_reserve-/releases/latest/download/FRED.oxt))
+and install it — no build required:
+
+```powershell
+$env:FRED_API_KEY = 'your_key'                                   # never hardcoded
+& 'C:\Program Files\LibreOffice\program\unopkg.exe' add FRED.oxt
+# then launch LibreOffice from an environment where FRED_API_KEY is set
+```
+
+### Quick start (build from source)
 
 ```powershell
 $env:FRED_API_KEY = 'your_key'                                   # never hardcoded

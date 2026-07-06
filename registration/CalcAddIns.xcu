@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oor:component-data
+    xmlns:oor="http://openoffice.org/2001/registry"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    oor:name="CalcAddIns" oor:package="org.openoffice.Office">
+  <node oor:name="AddInInfo">
+    <node oor:name="com.example.fred.FredImpl" oor:op="replace">
+      <node oor:name="AddInFunctions">
+
+        <!-- =FRED_SERIES(series_id; [start_date]; [end_date]; [api_key]) -->
+        <node oor:name="fredSeries" oor:op="replace">
+          <prop oor:name="DisplayName">
+            <value xml:lang="en">FRED_SERIES</value>
+          </prop>
+          <prop oor:name="Description">
+            <value xml:lang="en">Returns a FRED series' observations as a spillable two-column array (date, value). Missing values (the FRED "." sentinel) come back as empty cells.</value>
+          </prop>
+          <prop oor:name="Category">
+            <value>Add-In</value>
+          </prop>
+          <prop oor:name="CompatibilityName">
+            <value xml:lang="en">FRED_SERIES</value>
+          </prop>
+          <node oor:name="Parameters">
+            <node oor:name="seriesId" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">series_id</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">FRED series identifier, e.g. "GDP".</value>
+              </prop>
+            </node>
+            <node oor:name="startDate" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">start_date</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. Inclusive start date: an ISO YYYY-MM-DD string or a date cell. Omit for no lower bound.</value>
+              </prop>
+            </node>
+            <node oor:name="endDate" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">end_date</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. Inclusive end date: an ISO YYYY-MM-DD string or a date cell. Omit for no upper bound.</value>
+              </prop>
+            </node>
+            <node oor:name="apiKey" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">api_key</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. FRED API key; if omitted, the FRED_API_KEY environment variable is used. May reference a cell.</value>
+              </prop>
+            </node>
+            <node oor:name="headers" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">headers</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. 1 or TRUE prepends a "Date","Value" header row (default 0).</value>
+              </prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =FRED_DESCRIPTION(series_id; [api_key]) -->
+        <node oor:name="fredDescription" oor:op="replace">
+          <prop oor:name="DisplayName">
+            <value xml:lang="en">FRED_DESCRIPTION</value>
+          </prop>
+          <prop oor:name="Description">
+            <value xml:lang="en">Returns the title of a FRED series.</value>
+          </prop>
+          <prop oor:name="Category">
+            <value>Add-In</value>
+          </prop>
+          <prop oor:name="CompatibilityName">
+            <value xml:lang="en">FRED_DESCRIPTION</value>
+          </prop>
+          <node oor:name="Parameters">
+            <node oor:name="seriesId" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">series_id</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">FRED series identifier, e.g. "GDP".</value>
+              </prop>
+            </node>
+            <node oor:name="apiKey" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">api_key</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. FRED API key; if omitted, the FRED_API_KEY environment variable is used. May reference a cell.</value>
+              </prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =FRED_META(series_id; field; [api_key]) -->
+        <node oor:name="fredMeta" oor:op="replace">
+          <prop oor:name="DisplayName">
+            <value xml:lang="en">FRED_META</value>
+          </prop>
+          <prop oor:name="Description">
+            <value xml:lang="en">Returns a single metadata field for a FRED series (units, frequency, seasonal_adjustment, last_updated, notes, title, observation_start, observation_end).</value>
+          </prop>
+          <prop oor:name="Category">
+            <value>Add-In</value>
+          </prop>
+          <prop oor:name="CompatibilityName">
+            <value xml:lang="en">FRED_META</value>
+          </prop>
+          <node oor:name="Parameters">
+            <node oor:name="seriesId" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">series_id</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">FRED series identifier, e.g. "GDP".</value>
+              </prop>
+            </node>
+            <node oor:name="field" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">field</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Metadata field name, e.g. units, frequency, seasonal_adjustment, last_updated, notes.</value>
+              </prop>
+            </node>
+            <node oor:name="apiKey" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">api_key</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. FRED API key; if omitted, the FRED_API_KEY environment variable is used. May reference a cell.</value>
+              </prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =FRED_LATEST(series_id; [api_key]) -->
+        <node oor:name="fredLatest" oor:op="replace">
+          <prop oor:name="DisplayName">
+            <value xml:lang="en">FRED_LATEST</value>
+          </prop>
+          <prop oor:name="Description">
+            <value xml:lang="en">Returns the most recent non-missing observation value of a FRED series.</value>
+          </prop>
+          <prop oor:name="Category">
+            <value>Add-In</value>
+          </prop>
+          <prop oor:name="CompatibilityName">
+            <value xml:lang="en">FRED_LATEST</value>
+          </prop>
+          <node oor:name="Parameters">
+            <node oor:name="seriesId" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">series_id</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">FRED series identifier, e.g. "GDP".</value>
+              </prop>
+            </node>
+            <node oor:name="apiKey" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">api_key</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. FRED API key; if omitted, the FRED_API_KEY environment variable is used. May reference a cell.</value>
+              </prop>
+            </node>
+          </node>
+        </node>
+
+      </node>
+    </node>
+  </node>
+</oor:component-data>

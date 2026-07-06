@@ -1,0 +1,108 @@
+#include <com/sun/star/uno/XInterface.idl>
+#include <com/sun/star/lang/IllegalArgumentException.idl>
+
+module com { module example { module fred {
+
+    /** Add-in interface exposing FRED (Federal Reserve Economic Data)
+        worksheet functions to LibreOffice Calc.
+
+        Each method maps to a callable Calc function whose display name,
+        description and per-argument help are supplied by
+        config/CalcAddIns.xcu. On bad input, an unknown series, or a network
+        failure the methods raise com::sun::star::lang::IllegalArgumentException,
+        which Calc renders as a proper error value (e.g. #VALUE!) in the cell
+        rather than an exception string.
+
+        Every function takes a trailing optional <em>apiKey</em> argument. When
+        supplied (typed literally or via a cell reference) that key is used;
+        when omitted, the key falls back to the FRED_API_KEY environment
+        variable (or the fred.api.key system property). */
+    interface XFred
+    {
+        interface ::com::sun::star::uno::XInterface;
+
+        /** Return a series' observations as a spillable two-column array
+            of (date, value).
+
+            @param seriesId
+                the FRED series identifier, e.g. "GDP".
+
+            @param startDate
+                optional. Inclusive lower bound, ISO "YYYY-MM-DD". Declared as
+                <em>any</em> so it may be omitted in the formula (VOID = no bound).
+
+            @param endDate
+                optional. Inclusive upper bound, ISO "YYYY-MM-DD". Declared as
+                <em>any</em> so it may be omitted in the formula (VOID = no bound).
+
+            @param apiKey
+                optional. FRED API key; overrides the FRED_API_KEY environment
+                variable when supplied. Declared as <em>any</em> so it may be
+                omitted.
+
+            @param headers
+                optional. When TRUE (or 1), the first returned row is a
+                "Date"/"Value" header row. Defaults to FALSE. Declared as
+                <em>any</em> so it may be omitted.
+
+            @returns
+                a matrix of rows; column 1 is the ISO date string, column 2 is
+                the numeric value. Missing observations (the FRED "." sentinel)
+                yield an empty value cell rather than a string.
+         */
+        sequence< sequence< any > > fredSeries(
+            [in] string seriesId,
+            [in] any startDate,
+            [in] any endDate,
+            [in] any apiKey,
+            [in] any headers )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** Return the human-readable title of a series.
+
+            @param seriesId
+                the FRED series identifier, e.g. "GDP".
+            @param apiKey
+                optional. FRED API key; overrides FRED_API_KEY when supplied.
+            @returns
+                the series title, e.g. "Gross Domestic Product".
+         */
+        string fredDescription(
+            [in] string seriesId,
+            [in] any apiKey )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** Return a single metadata field for a series.
+
+            @param seriesId
+                the FRED series identifier, e.g. "GDP".
+            @param field
+                one of: units, frequency, seasonal_adjustment, last_updated,
+                notes, title, observation_start, observation_end.
+            @param apiKey
+                optional. FRED API key; overrides FRED_API_KEY when supplied.
+            @returns
+                the requested field's value as text.
+         */
+        string fredMeta(
+            [in] string seriesId,
+            [in] string field,
+            [in] any apiKey )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** Return the most recent (non-missing) observation value.
+
+            @param seriesId
+                the FRED series identifier, e.g. "GDP".
+            @param apiKey
+                optional. FRED API key; overrides FRED_API_KEY when supplied.
+            @returns
+                the latest numeric observation value.
+         */
+        double fredLatest(
+            [in] string seriesId,
+            [in] any apiKey )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+    };
+
+}; }; };

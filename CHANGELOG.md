@@ -103,6 +103,9 @@ as `FRED.oxt`.
 [1.0.5]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.5
 [1.0.4]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.4
 [1.0.3]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.3
-[1.0.2]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.2
-[1.0.1]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.1
-[1.0.0]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.0
+[1.0.2]: https://github.com/davidjayjackson/java_federal_reserve/tree/v1.0.2
+[1.0.1]: https://github.com/davidjayjackson/java_federal_reserve/tree/v1.0.1
+[1.0.0]: https://github.com/davidjayjackson/java_federal_reserve/tree/v1.0.0
+
+<!-- GitHub Release entries for v1.0.0-v1.0.2 were removed; the tags above
+     still exist, so those links point at the tagged tree instead. -->

@@ -62,7 +62,7 @@ LibreOffice 26.2 (Windows).
 ### Install (prebuilt)
 
 Download `FRED.oxt` from the [latest release](https://github.com/davidjayjackson/java_federal_reserve/releases/latest)
-(currently [v1.0.5](https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.5),
+(currently [v1.0.6](https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.6),
 [direct link](https://github.com/davidjayjackson/java_federal_reserve/releases/latest/download/FRED.oxt))
 and install it — no build required:
 

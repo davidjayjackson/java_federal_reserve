@@ -8,3 +8,6 @@ build/
 Thumbs.db
 .DS_Store
 *.swp
+
+# FRED API key
+fred.api

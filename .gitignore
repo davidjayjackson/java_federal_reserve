@@ -11,3 +11,6 @@ Thumbs.db
 
 # FRED API key
 fred.api
+
+# Claude Code local settings
+.claude/

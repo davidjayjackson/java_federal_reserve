@@ -59,6 +59,6 @@ as `FRED.oxt`.
 - Errors surface as Calc error values (`Err:502`), not exception strings;
   missing values (the FRED `.` sentinel) become empty cells.
 
-[1.0.2]: https://github.com/davidjayjackson/java_federal_reserve-/releases/tag/v1.0.2
-[1.0.1]: https://github.com/davidjayjackson/java_federal_reserve-/releases/tag/v1.0.1
-[1.0.0]: https://github.com/davidjayjackson/java_federal_reserve-/releases/tag/v1.0.0
+[1.0.2]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.2
+[1.0.1]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.1
+[1.0.0]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.0

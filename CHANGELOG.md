@@ -8,9 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.7] - 2026-07-08
 
 ### Added
-- Extension Manager icons: a bright-blue **default** icon and a black **high-contrast**
-  variant (42×42 PNG, an upward line chart with a `FRED` wordmark), declared via the
-  `<icon>` element in `description.xml` and staged into the `.oxt` by `build.ps1`/`build.sh`.
+- Extension Manager icons: a bright-blue **default** icon and a black
+  **high-contrast** variant (42×42 PNG — an upward line chart with a `FRED`
+  wordmark), declared via the `<icon>` element in `description.xml` and staged
+  into the `.oxt` by `build.ps1`/`build.sh`. They appear next to the extension
+  in **Tools → Extension Manager**.
+- `tools/make_icons.ps1`, which regenerates both icons from code (System.Drawing)
+  so they are reproducible.
 
 ### Changed
 - Bumped the `.oxt` extension package version to `1.0.7`.

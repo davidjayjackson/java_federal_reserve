@@ -77,7 +77,7 @@ type_dir="$build/types"
 stage="$build/oxt"
 
 rm -rf "$gen_dir" "$cls_dir" "$type_dir" "$stage"
-mkdir -p "$gen_dir" "$cls_dir" "$type_dir" "$stage/types" "$stage/config" "$stage/META-INF"
+mkdir -p "$gen_dir" "$cls_dir" "$type_dir" "$stage/types" "$stage/config" "$stage/icons" "$stage/META-INF"
 
 # --- 1. Compile IDL -> type library -----------------------------------------
 echo '[1/5] unoidl-write : idl -> build/types/XFred.rdb'
@@ -123,6 +123,8 @@ cp "$rdb" "$stage/types/XFred.rdb"
 cp "$root/registration/CalcAddIns.xcu" "$stage/config/CalcAddIns.xcu"
 cp "$root/registration/description.xml" "$stage/description.xml"
 cp "$root/registration/manifest.xml" "$stage/META-INF/manifest.xml"
+cp "$root/registration/icons/icon.png" "$stage/icons/icon.png"
+cp "$root/registration/icons/icon_hc.png" "$stage/icons/icon_hc.png"
 
 oxt="$build/FRED.oxt"
 rm -f "$oxt"

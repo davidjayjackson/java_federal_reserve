@@ -63,6 +63,7 @@ foreach ($d in @($genDir, $clsDir, $typeDir, $stage)) {
 foreach ($d in @($genDir, $clsDir, $typeDir,
                  (Join-Path $stage 'types'),
                  (Join-Path $stage 'config'),
+                 (Join-Path $stage 'icons'),
                  (Join-Path $stage 'META-INF'))) {
     New-Item -ItemType Directory -Force -Path $d | Out-Null
 }
@@ -103,6 +104,8 @@ Copy-Item $rdb                                             (Join-Path $stage 'ty
 Copy-Item (Join-Path $root 'registration\CalcAddIns.xcu') (Join-Path $stage 'config\CalcAddIns.xcu')
 Copy-Item (Join-Path $root 'registration\description.xml') (Join-Path $stage 'description.xml')
 Copy-Item (Join-Path $root 'registration\manifest.xml')   (Join-Path $stage 'META-INF\manifest.xml')
+Copy-Item (Join-Path $root 'registration\icons\icon.png')    (Join-Path $stage 'icons\icon.png')
+Copy-Item (Join-Path $root 'registration\icons\icon_hc.png') (Join-Path $stage 'icons\icon_hc.png')
 
 $oxt = Join-Path $build 'FRED.oxt'
 if (Test-Path $oxt) { Remove-Item $oxt -Force }

@@ -5,6 +5,18 @@ All notable changes to the FRED LibreOffice Calc add-in are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] - 2026-07-08
+
+### Added
+- Extension Manager icons: a bright-blue **default** icon and a black **high-contrast**
+  variant (42×42 PNG, an upward line chart with a `FRED` wordmark), declared via the
+  `<icon>` element in `description.xml` and staged into the `.oxt` by `build.ps1`/`build.sh`.
+
+### Changed
+- Bumped the `.oxt` extension package version to `1.0.7`.
+
+No functional changes to the add-in since 1.0.0.
+
 ## [1.0.6] - 2026-07-07
 
 ### Changed
@@ -110,6 +122,7 @@ as `FRED.oxt`.
 - Errors surface as Calc error values (`Err:502`), not exception strings;
   missing values (the FRED `.` sentinel) become empty cells.
 
+[1.0.7]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.7
 [1.0.6]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.6
 [1.0.5]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.5
 [1.0.4]: https://github.com/davidjayjackson/java_federal_reserve/releases/tag/v1.0.4

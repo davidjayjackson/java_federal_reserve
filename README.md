@@ -1,3 +1,5 @@
+![FRED for LibreOffice Calc](docs/assets/banner.png)
+
 # calc_federal_reserve
 Task: Build a LibreOffice Calc Add-In (UNO component) in Java that exposes custom worksheet functions for pulling FRED economic data and series metadata directly into cells.
 Environment & constraints:

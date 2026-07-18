@@ -1,0 +1,86 @@
+<svg width="1280" height="400" viewBox="0 0 1280 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FRED for LibreOffice Calc banner">
+  <defs>
+    <linearGradient id="bbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0E2A57"/>
+      <stop offset="0.55" stop-color="#123B7A"/>
+      <stop offset="1" stop-color="#0B213F"/>
+    </linearGradient>
+    <linearGradient id="bgold" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFB020"/>
+      <stop offset="1" stop-color="#FFD65C"/>
+    </linearGradient>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2E86F0"/>
+      <stop offset="1" stop-color="#155CBF"/>
+    </linearGradient>
+    <filter id="bsoft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#03102A" flood-opacity="0.5"/>
+    </filter>
+    <filter id="bglow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#FFCE55" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect width="1280" height="400" fill="url(#bbg)"/>
+
+  <!-- faint full-width chart motif in the background -->
+  <g opacity="0.10">
+    <polyline points="0,300 160,250 320,270 480,190 640,220 800,140 960,170 1120,90 1280,60"
+              fill="none" stroke="#7FB0F5" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <line x1="0" y1="100" x2="1280" y2="100"/>
+    <line x1="0" y1="200" x2="1280" y2="200"/>
+    <line x1="0" y1="300" x2="1280" y2="300"/>
+  </g>
+
+  <!-- logo tile -->
+  <g filter="url(#bsoft)">
+    <rect x="80" y="90" width="220" height="220" rx="48" fill="url(#tile)"/>
+    <rect x="80" y="90" width="220" height="220" rx="48" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"/>
+  </g>
+  <!-- axes -->
+  <g stroke="#DCE9FB" stroke-opacity="0.85" stroke-width="3" stroke-linecap="round">
+    <line x1="120" y1="128" x2="120" y2="232"/>
+    <line x1="120" y1="232" x2="264" y2="232"/>
+  </g>
+  <!-- trend line inside tile: points scaled to 120..264 x, 128..232 y -->
+  <path d="M131 214 L164 185 L197 197 L230 152 L262 132"
+        fill="none" stroke="url(#bgold)" stroke-width="7"
+        stroke-linecap="round" stroke-linejoin="round" filter="url(#bglow)"/>
+  <g fill="#ffffff">
+    <circle cx="131" cy="214" r="4.5"/>
+    <circle cx="164" cy="185" r="4.5"/>
+    <circle cx="197" cy="197" r="4.5"/>
+    <circle cx="230" cy="152" r="4.5"/>
+    <circle cx="262" cy="132" r="5.5"/>
+  </g>
+  <text x="190" y="285" text-anchor="middle"
+        font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+        font-size="44" font-weight="800" letter-spacing="2" fill="#ffffff">FRED</text>
+
+  <!-- headline + tagline -->
+  <text x="360" y="165"
+        font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+        font-size="62" font-weight="800" fill="#ffffff">FRED for LibreOffice Calc</text>
+  <text x="362" y="212"
+        font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+        font-size="27" font-weight="500" fill="#AFC8EE">Federal Reserve economic data, straight into your spreadsheet cells.</text>
+
+  <!-- function chips -->
+  <g font-family="'Consolas','SF Mono',Menlo,monospace" font-size="22" font-weight="600">
+    <g>
+      <rect x="362" y="256" width="176" height="44" rx="22" fill="#ffffff" fill-opacity="0.08" stroke="#FFD65C" stroke-opacity="0.5" stroke-width="1.5"/>
+      <text x="450" y="284" text-anchor="middle" fill="#FFD65C">FRED_SERIES</text>
+    </g>
+    <g>
+      <rect x="554" y="256" width="150" height="44" rx="22" fill="#ffffff" fill-opacity="0.08" stroke="#FFD65C" stroke-opacity="0.5" stroke-width="1.5"/>
+      <text x="629" y="284" text-anchor="middle" fill="#FFD65C">FRED_META</text>
+    </g>
+    <g>
+      <rect x="720" y="256" width="168" height="44" rx="22" fill="#ffffff" fill-opacity="0.08" stroke="#FFD65C" stroke-opacity="0.5" stroke-width="1.5"/>
+      <text x="804" y="284" text-anchor="middle" fill="#FFD65C">FRED_LATEST</text>
+    </g>
+  </g>
+</svg>
